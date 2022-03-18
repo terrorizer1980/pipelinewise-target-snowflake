@@ -435,11 +435,8 @@ def load_stream_batch(stream, records, row_count, db_sync, no_compression=False,
 # create schema matching record (deleting unwanted keys)
 def schema_from_record(record, schema):
     unwanted = set(schema.keys()) - set(record.keys())
-
-    for unwanted_key in unwanted:
-        del schema[unwanted_key]
-
-    return schema
+    new_schema = { key: schema[key] for key in schema if key not in unwanted }
+    return new_schema
 
 
 # group records by unique combination of keys of a record
