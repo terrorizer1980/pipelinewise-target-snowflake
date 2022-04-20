@@ -166,13 +166,12 @@ def persist_lines(config, lines, table_cache=None, file_format_type: FileFormatT
             if primary_key_string not in records_to_load[stream]:
                 row_count[stream] += 1
                 total_row_count[stream] += 1
-
-            # set the record default to an empty dict
-            current_record =  records_to_load[stream].get(primary_key_string)
-            if current_record is None:
-                records_to_load[stream][primary_key_string] = current_record = {}
+                # set the record default to an empty dict
+                records_to_load[stream][primary_key_string] = {}
 
             # merge the incoming record into the current record
+            current_record =  records_to_load[stream][primary_key_string]
+
             if config.get('add_metadata_columns') or config.get('hard_delete'):
                 records_to_load[stream][primary_key_string] = {**current_record, **stream_utils.add_metadata_values_to_record(o)}
             else:
