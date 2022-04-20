@@ -519,7 +519,7 @@ def flush_records(stream: str,
 
     # Upload to s3 and load into Snowflake
     s3_key = db_sync.put_to_stage(filepath, stream, row_count, temp_dir=temp_dir)
-    db_sync.load_file(s3_key, row_count, size_bytes)
+    db_sync.load_file(s3_key, row_count, size_bytes, schema)
 
     # Delete file from local disk
     os.remove(filepath)

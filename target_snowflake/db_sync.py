@@ -432,7 +432,7 @@ class DbSync:
         table_name = self.table_name(stream, False, without_schema=True)
         return f"{self.schema_name}.%{table_name}"
 
-    def load_file(self, s3_key, count, size_bytes):
+    def load_file(self, s3_key, count, size_bytes, schema):
         """Load a supported file type from snowflake stage into target table"""
         stream_schema_message = self.stream_schema_message
         stream = stream_schema_message['stream']
@@ -445,7 +445,7 @@ class DbSync:
                 "json_element_name": json_element_name(name),
                 "trans": column_trans(schema)
             }
-            for (name, schema) in self.flatten_schema.items()
+            for (name, schema) in schema.items()
         ]
 
         with self.open_connection() as connection:
